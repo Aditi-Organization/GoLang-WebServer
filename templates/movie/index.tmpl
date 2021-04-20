@@ -8,7 +8,16 @@
     <title>Index</title>
 </head>
 <body>
+    
     List All movies here
+    
+    <ul>
+    {{range .}}
+         <li> <a href="/movies/{{.Id}}"/> {{.Name}} </li>
+    {{end}}
+    </ul>
+
+
 </body>
 </html>
 {{ end }}
