@@ -24,6 +24,7 @@ func FindAll() []*MovieFormat {
 
 	var movieList []*MovieFormat
 	// fmt.Println("Trying to print all movies ")
+
 	for cursor.Next(tempContext) {
 		var result bson.M
 

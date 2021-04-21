@@ -2,22 +2,30 @@ package movieController
 
 import (
 	"GoLang-WebServer/models"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+// ListMoviesAPI /api/movies/ <GET>
+// SearchMovieAPI /api/movies?q=<movieName> <POST>
+// DisplayMovieAPI /api/movies/:id <GET>
+
 func Index(c *gin.Context) {
 	movieList := models.FindAll()
-	fmt.Print(movieList)
+	// fmt.Print(movieList)
 	// for i := 0; i < len(movieList); i++ {
 	// 	fmt.Println(movieList[i])
 	// }
-	c.HTML(http.StatusOK, "movie/index.tmpl", movieList)
+	c.JSON(http.StatusOK, movieList)
 }
 
-func MovieDetails(c *gin.Context) {
+func DisplayMovie(c *gin.Context) {
 	id := c.Param("id")
-	c.HTML(http.StatusOK, "movie/movie.tmpl", gin.H{"id": id})
+	c.JSON(http.StatusOK, gin.H{"id": id})
+}
+
+func SearchMovie(c *gin.Context) {
+	id := c.Param("id")
+	c.JSON(http.StatusOK, gin.H{"id": id})
 }

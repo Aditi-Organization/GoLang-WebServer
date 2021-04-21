@@ -16,7 +16,7 @@ var ctx context.Context
 var moviesCollection *mongo.Collection
 
 func ConnectAndInitialize() {
-	Client, err = mongo.NewClient(options.Client().ApplyURI("mongodb://127.0.0.1:27017/"))
+	Client, err = mongo.NewClient(options.Client().ApplyURI("mongodb+srv://admin:admin@ratingapp.wlmbz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
 	if err != nil {
 		log.Fatal(err)
 	}
