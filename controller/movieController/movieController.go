@@ -12,7 +12,7 @@ import (
 // DisplayMovieAPI /api/movies/:id <GET>
 
 func Index(c *gin.Context) {
-	movieList := models.FindAll()
+	movieList := models.FindAllVersion2()
 	// fmt.Print(movieList)
 	// for i := 0; i < len(movieList); i++ {
 	// 	fmt.Println(movieList[i])

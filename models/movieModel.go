@@ -44,3 +44,29 @@ func FindAll() []*MovieFormat {
 	}
 	return movieList
 }
+
+func FindAllVersion2() []bson.M {
+	tempContext := context.TODO()
+	cursor, err := moviesCollection.Find(tempContext, bson.M{})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer cursor.Close(tempContext)
+
+	var movieList []bson.M
+	// fmt.Println("Trying to print all movies ")
+
+	for cursor.Next(tempContext) {
+		var result bson.M
+
+		if err = cursor.Decode(&result); err != nil {
+			log.Fatal(err)
+		}
+		movieList = append(movieList, result)
+
+		// fmt.Println(result["_id"].(primitive.ObjectID).Hex())
+
+	}
+	return movieList
+}

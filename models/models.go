@@ -14,6 +14,8 @@ var err error
 var ctx context.Context
 
 var moviesCollection *mongo.Collection
+var userCollection *mongo.Collection
+var reviewCollection *mongo.Collection
 
 func ConnectAndInitialize() {
 	Client, err = mongo.NewClient(options.Client().ApplyURI("mongodb+srv://admin:admin@ratingapp.wlmbz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
@@ -29,5 +31,8 @@ func ConnectAndInitialize() {
 
 	moviesCollection = Client.Database("movieRatingServer").Collection("movies")
 	// defer Client.Disconnect(ctx)
+	reviewCollection = Client.Database("movieRatingServer").Collection("reviews")
+
+	userCollection = Client.Database("movieRatingServer").Collection("users")
 
 }
