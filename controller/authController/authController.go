@@ -19,6 +19,7 @@ func Login(c *gin.Context) {
 	verifyLogin(userName, password)
 	tokenString, expirationTime := SignJWT(c, userName, password)
 	// c.SetCookie("token", tokenString, expirationTime, "/", "localhost", true, false)
+
 	c.JSON(http.StatusOK, gin.H{"token": tokenString, "expirationTime": expirationTime})
 }
 

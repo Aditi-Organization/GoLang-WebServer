@@ -1,7 +1,6 @@
 package authController
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -18,7 +17,7 @@ type Claims struct {
 
 func SignJWT(c *gin.Context, userName string, password string) (string, int) {
 	// 5 minutes
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(60 * time.Minute)
 
 	claims := &Claims{
 		Username: userName,
@@ -33,6 +32,6 @@ func SignJWT(c *gin.Context, userName string, password string) (string, int) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Token string", tokenString)
+	// fmt.Println("Token string", tokenString)
 	return tokenString, int(expirationTime.Unix())
 }

@@ -13,6 +13,9 @@ import (
 func MovieRouter(rg *gin.RouterGroup) {
 	movie := rg.Group("/")
 
+	// Include this if the json web token is to be verified. Can be included to any route.
+	// movie.GET("/", jwtMiddleware.VerifyJSONWebToken, movieController.Index)
+
 	movie.GET("/", movieController.Index)
 
 	movie.POST("/", movieController.SearchMovie)
