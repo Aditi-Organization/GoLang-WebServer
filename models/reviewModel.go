@@ -18,13 +18,13 @@ import (
 // }
 
 func GetReview(movieId string) bson.M {
-	tempContext := context.TODO()
 	movieObjectId, err := primitive.ObjectIDFromHex(movieId)
-	fmt.Println(movieObjectId)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	tempContext := context.TODO()
 	singleResult := reviewCollection.FindOne(tempContext, bson.M{"_id": movieObjectId})
 	if singleResult.Err() != nil {
 		log.Fatal(err)
@@ -34,15 +34,36 @@ func GetReview(movieId string) bson.M {
 	if err = singleResult.Decode(&result); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("result ", result)
+	// fmt.Println("result ", result)
 	return result
-	// var movie MovieFormat = MovieFormat{}
-	// movie.Id = result["_id"].(primitive.ObjectID).Hex()
-	// movie.Name = result["name"].(string)
-	// // fmt.Println("Movie")
-	// // fmt.Println(movie)
-	// movieList = append(movieList, &movie)
+}
 
+func GetMovieReviews(movieId string) []bson.M {
+	movieObjectId, err := primitive.ObjectIDFromHex(movieId)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tempContext := context.TODO()
+	cursor, err := reviewCollection.Find(tempContext, bson.M{"movieId": movieObjectId})
+
+	var movieReviews []bson.M
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer cursor.Close(tempContext)
+
+	for cursor.Next(tempContext) {
+		var result bson.M
+
+		if err = cursor.Decode(&result); err != nil {
+			log.Fatal(err)
+		}
+		// fmt.Println(result)
+		movieReviews = append(movieReviews, result)
+	}
+	return movieReviews
 }
 
 func PrintAllReviews() {
@@ -60,14 +81,6 @@ func PrintAllReviews() {
 		if err = cursor.Decode(&result); err != nil {
 			log.Fatal(err)
 		}
-		// var movie MovieFormat = MovieFormat{}
-		// // To convert objectId to hex
-		// movie.Id = result["_id"].(primitive.ObjectID).Hex()
-		// movie.Name = result["name"].(string)
-		// fmt.Println("Movie")
-		// fmt.Println(movie)
-		// movieList = append(movieList, &movie)
-		// fmt.Println(result["_id"].(primitive.ObjectID).Hex())
 		fmt.Println(result)
 	}
 }

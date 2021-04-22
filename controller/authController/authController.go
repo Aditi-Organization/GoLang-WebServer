@@ -14,7 +14,12 @@ import (
 
 func Login(c *gin.Context) {
 	// c.HTML(http.StatusOK, "home/index.tmpl", gin.H{})
-	c.JSON(http.StatusOK, gin.H{})
+	userName := c.Request.FormValue("username")
+	password := c.Request.FormValue("password")
+	verifyLogin(userName, password)
+	tokenString, expirationTime := SignJWT(c, userName, password)
+	// c.SetCookie("token", tokenString, expirationTime, "/", "localhost", true, false)
+	c.JSON(http.StatusOK, gin.H{"token": tokenString, "expirationTime": expirationTime})
 }
 
 func SignUp(c *gin.Context) {
@@ -23,4 +28,8 @@ func SignUp(c *gin.Context) {
 
 func Logout(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
+}
+
+func verifyLogin(userName string, password string) {
+
 }
