@@ -16,10 +16,31 @@ import (
 // SignUpAPI /api/auth/signup
 // LogoutAPI /api/auth/logout
 
+type LoginData struct {
+	Email    string `form:"email" json:"email" binding:"required"`
+	Password string `form:"password" json:"password" binding:"required"`
+}
+
+type SignUpData struct {
+	Email     string `form:"email" json:"email" binding:"required"`
+	Password  string `form:"password" json:"password" binding:"required"`
+	FirstName string `form:"firstName" json:"firstName" binding:"required"`
+	LastName  string `form:"lastName" json:"lastName" binding:"required"`
+}
+
 func Login(c *gin.Context) {
-	// c.HTML(http.StatusOK, "home/index.tmpl", gin.H{})
-	email := c.Request.FormValue("email")
-	password := c.Request.FormValue("password")
+	// uncomment the following two lines to work with form data and comment the lines between 'JSON INPUT'
+	// email := c.Request.FormValue("email")
+	// password := c.Request.FormValue("password")
+
+	// JSON input.
+	var login LoginData
+	c.BindJSON(&login)
+
+	email := login.Email
+	password := login.Password
+
+	// JSON input
 
 	if email == "" || password == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Please fill all fields: email and password"})
@@ -40,10 +61,22 @@ func Login(c *gin.Context) {
 }
 
 func SignUp(c *gin.Context) {
-	firstName := c.Request.FormValue("firstName")
-	lastName := c.Request.FormValue("lastName")
-	password := c.Request.FormValue("password")
-	email := c.Request.FormValue("email")
+	// uncomment the following four lines to work with form data and comment the lines between 'JSON INPUT'
+	// firstName := c.Request.FormValue("firstName")
+	// lastName := c.Request.FormValue("lastName")
+	// password := c.Request.FormValue("password")
+	// email := c.Request.FormValue("email")
+
+	// JSON INPUT
+	var signup SignUpData
+	c.BindJSON(&signup)
+
+	email := signup.Email
+	password := signup.Password
+	firstName := signup.FirstName
+	lastName := signup.LastName
+
+	// JSON INPUT
 
 	if firstName == "" || lastName == "" || email == "" || password == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Please fill all fields: first name, last name, email and password"})
