@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OwlModule } from 'ngx-owl-carousel'
+import { HeaderComponentService } from './services/header-component-service/header-component.service';
+import { AuthServiceService } from './services/auth-service/auth-service.service';
 
 
 @NgModule({
@@ -31,7 +33,7 @@ import { OwlModule } from 'ngx-owl-carousel'
     HttpClientModule,
     OwlModule
   ],
-  providers: [],
+  providers: [HeaderComponentService, AuthServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

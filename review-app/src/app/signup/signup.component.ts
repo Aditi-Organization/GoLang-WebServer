@@ -46,18 +46,19 @@ export class SignupComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authService.registerUser({ 'username': this.f.username.value, 'password': this.f.password.value })
+    this.authService.registerUser({ 'email': this.f.username.value, 'password': this.f.password.value, 'firstName': this.f.firstName.value, 'lastName': this.f.lastName.value })
       .pipe(first())
       .subscribe(
         data => {
           console.log(data);
           if (data != null) {
-            this.router.navigate(['/homepage']);
+            this.authService.setUserLoggedIn(true);
+            this.router.navigate(['/']);
             this.token = data.token;
             this.id = data.id;
             console.log("ID:" + data.id);
             this.refreshToken = data.refreshToken;
-            // this.authService.storeUserData(this.id, this.token, this.f.username.value, this.refreshToken)
+            this.authService.storeUserData(this.id, this.token, this.f.username.value, this.refreshToken)
           }
         },
         error => {

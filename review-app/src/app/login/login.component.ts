@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from '../services/auth-service/auth-service.service';
 import { first } from 'rxjs/operators';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthServiceService,
+    private headerComponent: HeaderComponent
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +31,11 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    if (this.authService.getSessionData() != null) {
+      this.headerComponent.elements[0].style.visibility = "visible";
+      this.headerComponent.elements[1].style.visibility = "hidden";
+      sessionStorage.clear();
+    }
   }
 
   clearSession() {
@@ -46,18 +53,18 @@ export class LoginComponent implements OnInit {
     // console.log(this.f.username.value);
     this.loading = true;
 
-    this.authService.authenticateUser({ 'username': this.f.username.value, 'password': this.f.password.value })
+    this.authService.authenticateUser({ 'email': this.f.username.value, 'password': this.f.password.value })
       .pipe(first())
       .subscribe(
         data => {
           console.log(data);
           this.authService.setUserLoggedIn(true);
-          this.router.navigate(['/homepage']);
+          this.router.navigate(['/']);
           this.token = data.token;
           this.id = data.id;
           this.refreshToken = data.refreshToken;
           console.log(this.token);
-          // this.authService.storeUserData(this.id, this.token, this.f.username.value, this.refreshToken);
+          this.authService.storeUserData(this.id, this.token, this.f.username.value, this.refreshToken);
         },
         error => {
           this.loading = false;
