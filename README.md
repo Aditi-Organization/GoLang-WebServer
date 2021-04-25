@@ -8,6 +8,8 @@
 
 `go get go.mongodb.org/mongo-driver/mongo`
 
+`go get github.com/gin-contrib/cors`
+
 ## Request Flow on API
 
 Request ==> app.go ==> apiRouter.go ==> \<matchingRouter>.go ==> \<matchingController>.go ==> \<matchingModel>.go ==> Response
