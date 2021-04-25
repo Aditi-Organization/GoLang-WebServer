@@ -10,6 +10,11 @@
 
 `go get github.com/gin-contrib/cors`
 
+`go get golang.org/x/crypto/bcrypt`
+
+`go mod download golang.org/x/sys`
+
+
 ## Request Flow on API
 
 Request ==> app.go ==> apiRouter.go ==> \<matchingRouter>.go ==> \<matchingController>.go ==> \<matchingModel>.go ==> Response

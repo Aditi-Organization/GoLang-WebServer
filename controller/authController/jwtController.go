@@ -5,22 +5,25 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 )
 
 var jwtKey = []byte("SuperStrongPasswordMayBeNot!")
 
 type Claims struct {
-	Username string `json:"username"`
+	UserId    string `json:"id"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
 	jwt.StandardClaims
 }
 
-func SignJWT(c *gin.Context, userName string, password string) (string, int) {
+func SignJWT(id string, firstName string, lastName string) (string, int) {
 	// 5 minutes
 	expirationTime := time.Now().Add(60 * time.Minute)
 
 	claims := &Claims{
-		Username: userName,
+		UserId:    id,
+		FirstName: firstName,
+		LastName:  lastName,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

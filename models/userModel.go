@@ -2,18 +2,20 @@ package models
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserDetailFormat struct {
-	userId   string `bson:"u_id"`
-	userName string `bson:"u_name"`
-	userEmail string `bson:"u_email"`
-	userPassword string `bson:"u_password"`
-
+	UserId       string `bson:"_id"`
+	FirstName    string `bson:"firstName"`
+	LastName     string `bson:"lastName"`
+	UserEmail    string `bson:"email"`
+	UserPassword string `bson:"password"`
 }
 
 func FindAllUsers() []*UserDetailFormat {
@@ -28,20 +30,50 @@ func FindAllUsers() []*UserDetailFormat {
 	var userList []*UserDetailFormat
 	// fmt.Println("Trying to print all users ")
 	for cursor.Next(tempContext) {
-		var result bson.M
+		var result UserDetailFormat
 
 		if err = cursor.Decode(&result); err != nil {
 			log.Fatal(err)
 		}
-		var user UserDetailFormat = UserDetailFormat{}
+
 		// To convert objectId to hex
-		user.userId = result["u_id"].(primitive.ObjectID).Hex()
-		user.userName = result["u_name"].(string)
-		user.userEmail = result["u_email"].(string)
-		user.userPassword = result["u_password"].(string)
-		
-		userList = append(userList, &user)
+		// user.UserId = result["u_id"].(primitive.ObjectID).Hex()
+		// user.userName = result["u_name"].(string)
+		// user.userEmail = result["u_email"].(string)
+		// user.userPassword = result["u_password"].(string)
+
+		userList = append(userList, &result)
 
 	}
 	return userList
+}
+
+func CreateUser(email string, password string, firstName string, lastName string) error {
+	tempContext := context.TODO()
+	_, err := userCollection.InsertOne(tempContext, bson.D{
+		{Key: "email", Value: email},
+		{Key: "firstName", Value: firstName},
+		{Key: "lastName", Value: lastName},
+		{Key: "password", Value: password},
+	})
+	// fmt.Println(result)
+	return err
+}
+
+func VerifyLogin(email string, password []byte) (UserDetailFormat, error) {
+	tempContext := context.TODO()
+	result := userCollection.FindOne(tempContext, bson.D{
+		{Key: "email", Value: email},
+	})
+	var isPresent UserDetailFormat
+	err := result.Decode(&isPresent)
+	if err != nil {
+		return UserDetailFormat{}, errors.New("Invalid email or password")
+	}
+	fmt.Println(isPresent.UserPassword)
+	err = bcrypt.CompareHashAndPassword([]byte(isPresent.UserPassword), password)
+	if err != nil {
+		return UserDetailFormat{}, errors.New("Invalid email or password")
+	}
+	return isPresent, nil
 }

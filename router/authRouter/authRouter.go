@@ -13,9 +13,9 @@ import (
 func AuthRouter(rg *gin.RouterGroup) {
 	auth := rg.Group("/")
 
-	auth.GET("/login", authController.Login)
+	auth.POST("/login", authController.Login)
 
-	auth.GET("/signup", authController.SignUp)
+	auth.POST("/signup", authController.SignUp)
 
 	auth.GET("/logout", authController.Logout)
 }
