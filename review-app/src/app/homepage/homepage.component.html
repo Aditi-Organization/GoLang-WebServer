@@ -1,1 +1,35 @@
-<p>homepage works!</p>
+<head>
+  <title>Movies Website</title>
+</head>
+<body>
+  <nav>
+    <a class="logo">
+      <img src="../../assets/logo.png" />
+    </a>
+    <ul class="menu">
+      <li><a href="#">Movies</a></li>
+      <li><a href="#">TV Shows</a></li>
+    </ul>
+    <div class="search">
+      <i class="icon-search"></i>
+      <input type="text" placeholder="Search for your movie" />
+    </div>
+  </nav>
+  <section id="main">
+    <h1 class="showcase-heading">Showcase</h1>
+  </section>
+  <owl-carousel
+    [options]="homeSlider"
+    [carouselClasses]="['owl-theme', 'customClassName']"
+  >
+    <div class="showcase-box">
+      <img src="../../assets/movie-3.png" />
+    </div>
+    <div class="showcase-box">
+      <img src="../../assets/movie-2.png" />
+    </div>
+    <div class="showcase-box">
+      <img src="../../assets/movie-1.png" />
+    </div>
+  </owl-carousel>
+</body>

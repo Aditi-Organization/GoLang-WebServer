@@ -10,6 +10,9 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignupComponent } from './signup/signup.component';
+import { HttpClientModule } from '@angular/common/http';
+import { OwlModule } from 'ngx-owl-carousel'
+
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { SignupComponent } from './signup/signup.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule,
+    OwlModule
   ],
   providers: [],
   bootstrap: [AppComponent]
