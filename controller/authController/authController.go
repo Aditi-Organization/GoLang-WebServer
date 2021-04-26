@@ -95,10 +95,24 @@ func SignUp(c *gin.Context) {
 		log.Println(err)
 		if strings.Contains(err.Error(), "E11000") {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Email already exists"})
+			return
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Please check the input and try again"})
 		}
 
 	} else {
-		c.JSON(http.StatusOK, gin.H{})
+		userId, err := models.VerifyLogin(email, []byte(password))
+
+		// log.Println(err)
+		if err == nil {
+			tokenString, expirationTime := SignJWT(userId.UserId, userId.FirstName, userId.LastName)
+			// c.SetCookie("token", tokenString, expirationTime, "/", "localhost", true, false)
+			c.JSON(http.StatusOK, gin.H{"token": tokenString, "expirationTime": expirationTime})
+		} else {
+			c.JSON(http.StatusUnauthorized, gin.H{"err": err.Error()})
+			return
+		}
+		// c.JSON(http.StatusOK, gin.H{})
 	}
 
 }
