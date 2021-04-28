@@ -1,8 +1,8 @@
 package models
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -72,9 +72,9 @@ func FindAllVersion2() []bson.M {
 	return movieList
 }
 
-func FindMovie(movieName string) MovieFormat{
+func FindMovie(movieName string) MovieFormat {
 	tempContext := context.TODO()
-	singleResult := moviesCollection.FindOne(tempContext, bson.M{"name": movieName} )
+	singleResult := moviesCollection.FindOne(tempContext, bson.M{"name": movieName})
 	var result MovieFormat
 
 	if err = singleResult.Decode(&result); err != nil {
@@ -84,16 +84,18 @@ func FindMovie(movieName string) MovieFormat{
 	return result
 }
 
-func ShowMovie(movieId string) MovieFormat {
-//movieObjectId, err := primitive.ObjectIDFromHex(movieId)
+func ShowMovie(Id string) MovieFormat {
+	//movieObjectId, err := primitive.ObjectIDFromHex(movieId)
 
-//	if err != nil {
-//		log.Fatal(err)
-//	}
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
 
 	tempContext := context.TODO()
+	movieId, err := primitive.ObjectIDFromHex(Id)
 	singleResult := moviesCollection.FindOne(tempContext, bson.M{"_id": movieId})
 	if singleResult.Err() != nil {
+		fmt.Println("Error here")
 		log.Fatal(err)
 	}
 	var result MovieFormat

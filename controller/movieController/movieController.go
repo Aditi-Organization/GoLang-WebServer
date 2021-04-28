@@ -21,14 +21,14 @@ func Index(c *gin.Context) {
 func DisplayMovie(c *gin.Context) {
 	//fmt.Println(c.Params)
 	movieId := c.Param("id")
-	fmt.Print(movieId)
+	fmt.Println(movieId)
 	if movieId == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Provide ID"})
 		return
 	}
 	movieObject := models.ShowMovie(movieId)
-	//fmt.Println(movieObject)
-
+	fmt.Println(movieObject)
+	// c.JSON(http.StatusOK, gin.H{})
 	c.JSON(http.StatusOK, gin.H{"name": movieObject.Name, "_id": movieObject.Id})
 }
 
