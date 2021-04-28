@@ -2,6 +2,7 @@ package movieController
 
 import (
 	"GoLang-WebServer/models"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,19 +14,35 @@ import (
 
 func Index(c *gin.Context) {
 	movieList := models.FindAllVersion2()
-	// fmt.Print(movieList)
-	// for i := 0; i < len(movieList); i++ {
-	// 	fmt.Println(movieList[i])
-	// }
+	fmt.Print(movieList)
 	c.JSON(http.StatusOK, movieList)
 }
 
 func DisplayMovie(c *gin.Context) {
-	id := c.Param("id")
-	c.JSON(http.StatusOK, gin.H{"id": id})
+	//fmt.Println(c.Params)
+	movieId := c.Param("id")
+	fmt.Print(movieId)
+	if movieId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Provide ID"})
+		return
+	}
+	movieObject := models.ShowMovie(movieId)
+	//fmt.Println(movieObject)
+
+	c.JSON(http.StatusOK, gin.H{"name": movieObject.Name, "_id": movieObject.Id})
 }
 
 func SearchMovie(c *gin.Context) {
-	id := c.Param("id")
-	c.JSON(http.StatusOK, gin.H{"id": id})
+	movieName := c.Request.FormValue("movieName")
+	if movieName == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Please fill the field: movie name"})
+		return
+	}
+	movieObject := models.FindMovie(movieName)
+	fmt.Println(movieObject)
+	//if (!movieObject)  {
+	//	c.JSON(http.StatusNotFound, gin.H{"Not found": "Movie is not available"})
+	//}
+
+	c.JSON(http.StatusOK, gin.H{"name": movieObject.Name, "_id": movieObject.Id})
 }

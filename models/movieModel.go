@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"context"
 	"log"
 
@@ -69,4 +70,37 @@ func FindAllVersion2() []bson.M {
 
 	}
 	return movieList
+}
+
+func FindMovie(movieName string) MovieFormat{
+	tempContext := context.TODO()
+	singleResult := moviesCollection.FindOne(tempContext, bson.M{"name": movieName} )
+	var result MovieFormat
+
+	if err = singleResult.Decode(&result); err != nil {
+		log.Fatal(err)
+	}
+	//fmt.Println("result ", result)
+	return result
+}
+
+func ShowMovie(movieId string) MovieFormat {
+//movieObjectId, err := primitive.ObjectIDFromHex(movieId)
+
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+
+	tempContext := context.TODO()
+	singleResult := moviesCollection.FindOne(tempContext, bson.M{"_id": movieId})
+	if singleResult.Err() != nil {
+		log.Fatal(err)
+	}
+	var result MovieFormat
+
+	if err = singleResult.Decode(&result); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Calling result ", result)
+	return result
 }
