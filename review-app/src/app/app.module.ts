@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { OwlModule } from 'ngx-owl-carousel'
 import { HeaderComponentService } from './services/header-component-service/header-component.service';
 import { AuthServiceService } from './services/auth-service/auth-service.service';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { MovieService } from './services/movie-service/movie.service';
 
 
 @NgModule({
@@ -23,7 +26,8 @@ import { AuthServiceService } from './services/auth-service/auth-service.service
     FooterComponent,
     HomepageComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    MovieDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,8 @@ import { AuthServiceService } from './services/auth-service/auth-service.service
     HttpClientModule,
     OwlModule
   ],
-  providers: [HeaderComponentService, AuthServiceService],
+  schemas:[ CUSTOM_ELEMENTS_SCHEMA],
+  providers: [HeaderComponentService, AuthServiceService, MovieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

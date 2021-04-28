@@ -32,4 +32,12 @@
       <img src="../../assets/movie-1.png" />
     </div>
   </owl-carousel>
+
+  <div>
+    <ul>
+      <li *ngFor="let movie of movies">
+        <p>{{movie.name}}</p>
+      </li>
+    </ul>
+  </div>
 </body>
