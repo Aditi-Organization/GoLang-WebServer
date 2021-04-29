@@ -17,6 +17,8 @@ import { HeaderComponentService } from './services/header-component-service/head
 import { AuthServiceService } from './services/auth-service/auth-service.service';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieService } from './services/movie-service/movie.service';
+import { MovieListComponent } from './movie-list/movie-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { MovieService } from './services/movie-service/movie.service';
     HomepageComponent,
     LoginComponent,
     SignupComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    MovieListComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +38,10 @@ import { MovieService } from './services/movie-service/movie.service';
     ReactiveFormsModule,
     NgbModule,
     HttpClientModule,
-    OwlModule
+    OwlModule,
+    BrowserAnimationsModule,
   ],
-  schemas:[ CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [HeaderComponentService, AuthServiceService, MovieService],
   bootstrap: [AppComponent]
 })

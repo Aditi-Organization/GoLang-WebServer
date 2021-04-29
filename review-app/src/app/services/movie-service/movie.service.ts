@@ -12,10 +12,10 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
   getAllMovies(): Observable<any> {
-    return this.http.get(this.apiUrl + 'api/movies', {
-      // headers: new HttpHeaders({
-      //   "Content-Type": "application/json"
-      // })
+    return this.http.get(this.apiUrl + 'api/movies/', {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
     });
   }
 }

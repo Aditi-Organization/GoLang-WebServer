@@ -4,12 +4,13 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { MovieListComponent } from './movie-list/movie-list.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomepageComponent,
-    pathMatch:'full'
+    pathMatch: 'full'
   },
   {
     path: 'login',
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'movie',
     component: MovieDetailsComponent
+  },
+  {
+    path: 'movie-list',
+    component: MovieListComponent
   }
 ];
 

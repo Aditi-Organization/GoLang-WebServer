@@ -1,5 +1,7 @@
-export class MovieObject{
+export class MovieObject {
 
-  id:String;
-  name:String;
+  id: String;
+  name: String;
+  description: String;
+  img: String;
 }
