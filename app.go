@@ -20,12 +20,8 @@ func main() {
 	config.AllowAllOrigins = true
 	router.Use(cors.New(config))
 
-	api := router.Group("/api/")
+	api := router.Group("/api")
 	apiRouter.RouteApi(api)
-	// homeRouter.HomeRouter(home)
-
-	// movie := router.Group("/movies/")
-	// movieRouter.MovieRouter(movie)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

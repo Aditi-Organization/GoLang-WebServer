@@ -13,8 +13,8 @@ import (
 // DisplayMovieAPI /api/movies/:id <GET>
 
 func Index(c *gin.Context) {
-	movieList := models.FindAllVersion2()
-	fmt.Print(movieList)
+	movieList := models.FindAll()
+	// fmt.Print(movieList)
 	c.JSON(http.StatusOK, movieList)
 }
 

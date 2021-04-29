@@ -10,8 +10,10 @@ import (
 )
 
 type MovieFormat struct {
-	Id   string `bson:"_id"`
-	Name string `bson:"name"`
+	Id          string `bson:"_id" json:"_id"`
+	Name        string `bson:"name" json:"name"`
+	Img         string `bson:"img" json:"img"`
+	Description string `bson:"description" json:"description"`
 }
 
 func FindAll() []*MovieFormat {
@@ -27,18 +29,14 @@ func FindAll() []*MovieFormat {
 	// fmt.Println("Trying to print all movies ")
 
 	for cursor.Next(tempContext) {
-		var result bson.M
+		var result MovieFormat
 
 		if err = cursor.Decode(&result); err != nil {
 			log.Fatal(err)
 		}
-		var movie MovieFormat = MovieFormat{}
-		// To convert objectId to hex
-		movie.Id = result["_id"].(primitive.ObjectID).Hex()
-		movie.Name = result["name"].(string)
 		// fmt.Println("Movie")
 		// fmt.Println(movie)
-		movieList = append(movieList, &movie)
+		movieList = append(movieList, &result)
 
 		// fmt.Println(result["_id"].(primitive.ObjectID).Hex())
 

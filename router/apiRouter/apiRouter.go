@@ -10,13 +10,13 @@ import (
 
 func RouteApi(rg *gin.RouterGroup) {
 
-	auth := rg.Group("/auth/")
+	auth := rg.Group("/auth")
 	authRouter.AuthRouter(auth)
 
-	movie := rg.Group("/movies/")
+	movie := rg.Group("/movies")
 	movieRouter.MovieRouter(movie)
 
-	review := rg.Group("/review/")
+	review := rg.Group("/review")
 	reviewRouter.ReviewRouter(review)
 
 }

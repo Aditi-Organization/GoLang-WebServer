@@ -2,6 +2,7 @@ package reviewController
 
 import (
 	"GoLang-WebServer/models"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +26,7 @@ func ListReview(c *gin.Context) {
 	// fmt.Println(movieId)
 	result := models.GetMovieReviews(movieId)
 	// models.PrintAllReviews()
+	fmt.Println(result)
 	c.JSON(http.StatusOK, result)
 }
 

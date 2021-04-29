@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -39,14 +40,32 @@ func GetReview(movieId string) bson.M {
 }
 
 func GetMovieReviews(movieId string) []bson.M {
-	movieObjectId, err := primitive.ObjectIDFromHex(movieId)
+	// movieObjectId, err := primitive.ObjectIDFromHex(movieId)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	pipeline := `
+    [{
+        "$lookup": {
+            "from": "users",
+            "localField": "userId",
+            "foreignField": "firstName",
+            "as": "reviewedBy"
+        }
+    }
+    ]
+	`
+
+	var v []map[string]interface{}
+
+	// var results []bson.M
+	json.Unmarshal([]byte(pipeline), &v)
+
 	tempContext := context.TODO()
-	cursor, err := reviewCollection.Find(tempContext, bson.M{"movieId": movieObjectId})
+	// cursor, err := reviewCollection.Find(tempContext, bson.M{"movieId": movieObjectId})
+	cursor, err := reviewCollection.Aggregate(tempContext, v)
 
 	var movieReviews []bson.M
 	if err != nil {
