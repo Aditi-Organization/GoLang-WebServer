@@ -2,12 +2,12 @@ package models
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // type Review struct {
@@ -46,26 +46,21 @@ func GetMovieReviews(movieId string) []bson.M {
 		log.Fatal(err)
 	}
 
-	pipeline := `
-    [{
-        "$lookup": {
-            "from": "users",
-            "localField": "userId",
-            "foreignField": "firstName",
-            "as": "reviewedBy"
-        }
-    }
-    ]
-	`
-
-	var v []map[string]interface{}
-
-	// var results []bson.M
-	json.Unmarshal([]byte(pipeline), &v)
+	lookupStage := bson.D{{"$lookup", bson.D{{"from", "users"}, {"localField", "userId"}, {"foreignField", "_id"}, {"as", "reviewedBy"}}}}
+	unwindStage := bson.D{{"$unwind", bson.D{{"path", "$reviewedBy"}, {"preserveNullAndEmptyArrays", false}}}}
+	projectStage := bson.D{{"$project",
+		bson.D{{"_id", 1},
+			{"movieId", 1},
+			{"description", 1},
+			{"rating", 1},
+			{"firstName", "$reviewedBy.firstName"},
+			{"lastName", "$reviewedBy.lastName"},
+		}}}
 
 	tempContext := context.TODO()
+	// var temp bson.M
 	// cursor, err := reviewCollection.Find(tempContext, bson.M{"movieId": movieObjectId})
-	cursor, err := reviewCollection.Aggregate(tempContext, v)
+	cursor, err := reviewCollection.Aggregate(tempContext, mongo.Pipeline{lookupStage, unwindStage, projectStage})
 
 	var movieReviews []bson.M
 	if err != nil {

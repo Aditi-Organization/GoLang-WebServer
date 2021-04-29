@@ -29,7 +29,7 @@ func DisplayMovie(c *gin.Context) {
 	movieObject := models.ShowMovie(movieId)
 	fmt.Println(movieObject)
 	// c.JSON(http.StatusOK, gin.H{})
-	c.JSON(http.StatusOK, gin.H{"name": movieObject.Name, "_id": movieObject.Id})
+	c.JSON(http.StatusOK, movieObject)
 }
 
 func SearchMovie(c *gin.Context) {

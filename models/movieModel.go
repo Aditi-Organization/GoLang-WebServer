@@ -78,7 +78,7 @@ func FindMovie(movieName string) MovieFormat {
 	if err = singleResult.Decode(&result); err != nil {
 		log.Fatal(err)
 	}
-	//fmt.Println("result ", result)
+	fmt.Println("result ", result)
 	return result
 }
 
