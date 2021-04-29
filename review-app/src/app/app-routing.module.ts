@@ -22,7 +22,13 @@ const routes: Routes = [
   },
   {
     path: 'movie',
-    component: MovieDetailsComponent
+    component: MovieDetailsComponent,
+    children :[
+      {
+        path:':id',
+        component:MovieDetailsComponent
+      }
+    ]
   },
   {
     path: 'movie-list',

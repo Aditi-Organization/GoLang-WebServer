@@ -4,12 +4,19 @@
   </div> -->
   <div class="movie-detail-container">
     <div class="movie-cover">
-      <img src="../../assets/movie-1.png" alt="movie poster" width="500" height="500">
+      <img
+        src="{{ movieDetails.img }}"
+        alt="movie poster"
+        width="500"
+        height="500"
+      />
     </div>
     <div class="movie-detail">
-      <h2>MOvie Name</h2>
+      <h2>{{ movieDetails.name }}</h2>
       <div class="short-info">
-        <div class="rate"><span>rate: <strong>Average rating</strong></span></div>
+        <div class="rate">
+          <span>rate: <strong>Average rating</strong></span>
+        </div>
         <!-- <div class="duration"><span>length: <strong>{{movie.length}}</strong></span></div> -->
         <!-- <div class="genres">
           <span>genres:</span>
@@ -19,28 +26,69 @@
         </div> -->
       </div>
       <p class="desc">
-        movie desc
+        {{ movieDetails.description }}
       </p>
     </div>
     <div>
-
       <div>
         <fieldset class="rating">
-          <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="5 stars"></label>
-          <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="4.5 stars"></label>
-          <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="4 stars"></label>
-          <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="3.5 stars"></label>
-          <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="3 stars"></label>
-          <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="2.5 stars"></label>
-          <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="2 stars"></label>
-          <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="1.5 stars"></label>
-          <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="1 star"></label>
-          <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="0.5 stars"></label>
-      </fieldset>
-
+          <input type="radio" id="star5" name="rating" value="5" /><label
+            class="full"
+            for="star5"
+            title="5 stars"
+          ></label>
+          <input
+            type="radio"
+            id="star4half"
+            name="rating"
+            value="4 and a half"
+          /><label class="half" for="star4half" title="4.5 stars"></label>
+          <input type="radio" id="star4" name="rating" value="4" /><label
+            class="full"
+            for="star4"
+            title="4 stars"
+          ></label>
+          <input
+            type="radio"
+            id="star3half"
+            name="rating"
+            value="3 and a half"
+          /><label class="half" for="star3half" title="3.5 stars"></label>
+          <input type="radio" id="star3" name="rating" value="3" /><label
+            class="full"
+            for="star3"
+            title="3 stars"
+          ></label>
+          <input
+            type="radio"
+            id="star2half"
+            name="rating"
+            value="2 and a half"
+          /><label class="half" for="star2half" title="2.5 stars"></label>
+          <input type="radio" id="star2" name="rating" value="2" /><label
+            class="full"
+            for="star2"
+            title="2 stars"
+          ></label>
+          <input
+            type="radio"
+            id="star1half"
+            name="rating"
+            value="1 and a half"
+          /><label class="half" for="star1half" title="1.5 stars"></label>
+          <input type="radio" id="star1" name="rating" value="1" /><label
+            class="full"
+            for="star1"
+            title="1 star"
+          ></label>
+          <input type="radio" id="starhalf" name="rating" value="half" /><label
+            class="half"
+            for="starhalf"
+            title="0.5 stars"
+          ></label>
+        </fieldset>
       </div>
       <div>
-
         <!-- <form class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Favorite food</mat-label>
@@ -51,12 +99,29 @@
         </form> -->
         <mat-form-field class="example-full-width">
           <mat-label>Leave a comment</mat-label>
-          <textarea matInput placeholder="Leave your comment here..."></textarea>
+          <textarea
+            matInput
+            placeholder="Leave your comment here..."
+          ></textarea>
         </mat-form-field>
 
         <button>Post review</button>
       </div>
-
     </div>
+    <!-- Movie Comments-->
+  <div>
+    <ul>
+      <section>
+        <li *ngFor="let review of reviews">
+            <div class="comment-box" id="comment-box">
+              <div class="movie-img">
+                <strong id="comment head">{{review.firstName}} {{review.lastName}} rated the movie {{ review.rating }}</strong>
+              </div>
+              <p class="review-desc">{{ review.description }}</p>
+            </div>
+        </li>
+      </section>
+    </ul>
+  </div>
   </div>
 </div>

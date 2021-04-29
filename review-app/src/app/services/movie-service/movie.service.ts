@@ -18,4 +18,12 @@ export class MovieService {
       })
     });
   }
+
+  getMovieDetail(id:String): Observable<any> {
+    return this.http.get(this.apiUrl + 'api/movies/'+id, {
+      // headers: new HttpHeaders({
+      //   "Content-Type": "application/json"
+      // })
+    });
+  }
 }
