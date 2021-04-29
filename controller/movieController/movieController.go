@@ -12,6 +12,10 @@ import (
 // SearchMovieAPI /api/movies?q=<movieName> <POST>
 // DisplayMovieAPI /api/movies/:id <GET>
 
+type SearchMovieFormat struct {
+	Name string `form:"movieName" json:"movieName" binding:"required"`
+}
+
 func Index(c *gin.Context) {
 	movieList := models.FindAll()
 	// fmt.Print(movieList)
@@ -33,16 +37,22 @@ func DisplayMovie(c *gin.Context) {
 }
 
 func SearchMovie(c *gin.Context) {
-	movieName := c.Request.FormValue("movieName")
+
+	var movieData SearchMovieFormat
+	c.BindJSON(&movieData)
+
+	movieName := movieData.Name
+
 	if movieName == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Please fill the field: movie name"})
 		return
 	}
 	movieObject := models.FindMovie(movieName)
-	fmt.Println(movieObject)
-	//if (!movieObject)  {
-	//	c.JSON(http.StatusNotFound, gin.H{"Not found": "Movie is not available"})
-	//}
+	// fmt.Println(len(movieObject))
+	if len(movieObject) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No matches found"})
+	} else {
+		c.JSON(http.StatusOK, movieObject)
+	}
 
-	c.JSON(http.StatusOK, gin.H{"name": movieObject.Name, "_id": movieObject.Id})
 }

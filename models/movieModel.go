@@ -70,16 +70,33 @@ func FindAllVersion2() []bson.M {
 	return movieList
 }
 
-func FindMovie(movieName string) MovieFormat {
-	tempContext := context.TODO()
-	singleResult := moviesCollection.FindOne(tempContext, bson.M{"name": movieName})
-	var result MovieFormat
+func FindMovie(movieName string) []*MovieFormat {
 
-	if err = singleResult.Decode(&result); err != nil {
-		log.Fatal(err)
+	// movieFilter := bson.E{Key: "name", Value: bson.D{
+	// 	{"$regex", primitive.Regex{Pattern: movieName, Options: "i"}},
+	// }}
+	movieFilter := bson.M{"name": bson.M{"$regex": ".*" + movieName + ".*", "$options": "i"}}
+	fmt.Println(movieFilter)
+	tempContext := context.TODO()
+	cursor, _ := moviesCollection.Find(tempContext, movieFilter) // bson.M{"name": bson.M{"$regex": "/" + movieName + "/"}}
+
+	var movieList []*MovieFormat
+	// fmt.Println("Trying to print all movies ")
+
+	for cursor.Next(tempContext) {
+		var result MovieFormat
+
+		if err = cursor.Decode(&result); err != nil {
+			log.Fatal(err)
+		}
+		// fmt.Println("Movie")
+		// fmt.Println(movie)
+		movieList = append(movieList, &result)
+
+		// fmt.Println(result["_id"].(primitive.ObjectID).Hex())
+
 	}
-	fmt.Println("result ", result)
-	return result
+	return movieList
 }
 
 func ShowMovie(Id string) MovieFormat {
