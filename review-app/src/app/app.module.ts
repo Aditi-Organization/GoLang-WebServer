@@ -19,6 +19,7 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieService } from './services/movie-service/movie.service';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     OwlModule,
     BrowserAnimationsModule,
+    MatCardModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [HeaderComponentService, AuthServiceService, MovieService],

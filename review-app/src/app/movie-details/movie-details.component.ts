@@ -18,6 +18,9 @@ export class MovieDetailsComponent implements OnInit {
 
   public reviews : ReviewObject[];
 
+  // const fieldset = document.fo
+  currentRate = 0;
+
   constructor(public router : Router, public route : ActivatedRoute, public movieService : MovieService
     , public reviewService : ReviewService) {
     route.url.subscribe(() => {
@@ -40,4 +43,7 @@ export class MovieDetailsComponent implements OnInit {
 
   }
 
+  onSubmit(){
+    console.log(this.currentRate);
+  }
 }
