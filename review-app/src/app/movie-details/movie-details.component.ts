@@ -6,6 +6,7 @@ import { ReviewObject } from '../reviewobject.model';
 import { ReviewService } from '../services/review-service/review.service';
 import { first } from 'rxjs/operators';
 import { AuthServiceService } from '../services/auth-service/auth-service.service';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-movie-details',
@@ -14,45 +15,52 @@ import { AuthServiceService } from '../services/auth-service/auth-service.servic
 })
 export class MovieDetailsComponent implements OnInit {
 
-  public movieId : String;
+  public movieId: String;
 
   public movieDetails: MovieObject;
 
-  public reviews : ReviewObject[];
+  public reviews: ReviewObject[];
 
   // const fieldset = document.fo
   currentRate = 0;
-  msg : String = '';
-  private authToken : String;
-  showAddReview : boolean;
-  averageReview : String;
+  msg: String = '';
+  private authToken: String;
+  showAddReview: boolean;
+  averageReview: String;
 
-  constructor(public router : Router, public route : ActivatedRoute, public movieService : MovieService
-    , public reviewService : ReviewService, public authServiceService : AuthServiceService) {
+  constructor(public router: Router, public route: ActivatedRoute, public movieService: MovieService
+    , public reviewService: ReviewService, public authServiceService: AuthServiceService, public headerComponent: HeaderComponent) {
     route.url.subscribe(() => {
       this.movieId = route.snapshot.firstChild.url[0].path;
       console.log(this.showAddReview);
-     });
+    });
+
+    this.headerComponent.elements[0].style.visibility = "visible";
+    this.headerComponent.elements[1].style.visibility = "hidden";
+    if (authServiceService.getSessionData() != null) {
+      this.headerComponent.elements[0].style.visibility = "hidden";
+      this.headerComponent.elements[1].style.visibility = "visible";
+    }
   }
 
   ngOnInit(): void {
 
     this.showAddReview = false;
-    this.movieService.getMovieDetail(this.movieId).subscribe((movieDet : MovieObject) =>{
+    this.movieService.getMovieDetail(this.movieId).subscribe((movieDet: MovieObject) => {
       this.movieDetails = movieDet;
       console.log(this.movieDetails);
     });
 
-    this.reviewService.getReviewsForMovie(this.movieId).subscribe((movieReviews : ReviewObject[]) =>{
+    this.reviewService.getReviewsForMovie(this.movieId).subscribe((movieReviews: ReviewObject[]) => {
       this.reviews = movieReviews;
       console.log(this.reviews);
       var arrayLength = this.reviews.length;
-    var average = 0;
-for (var i = 0; i < arrayLength; i++) {
-    average = average+ parseInt(this.reviews[i].rating);
+      var average = 0;
+      for (var i = 0; i < arrayLength; i++) {
+        average = average + parseInt(this.reviews[i].rating);
 
-}
-this.averageReview = String(average/arrayLength) ;
+      }
+      this.averageReview = String(average / arrayLength);
     });
     console.log(this.authServiceService.getSessionToken());
     if (this.authServiceService.getSessionToken() != null) {
@@ -64,13 +72,13 @@ this.averageReview = String(average/arrayLength) ;
 
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log(this.currentRate);
     console.log(this.msg);
 
 
 
-    this.reviewService.addReview({ 'authtoken': this.msg, 'rating': this.currentRate, 'description': this.msg})
+    this.reviewService.addReview({ 'authtoken': this.msg, 'rating': this.currentRate, 'description': this.msg })
       .pipe(first())
       .subscribe(
         data => {
