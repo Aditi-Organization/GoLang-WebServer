@@ -2,27 +2,32 @@
   <!-- <div class="movie-banner-cover">
     <img src="../../assets/movie-1.png" alt="movie cover">
   </div> -->
-  <div class="movie-detail-container">
-    <div class="movie-cover">
-      <img
-        src="{{ movieDetails.img }}"
-        alt="movie poster"
-        width="500"
-        height="500"
-      />
-    </div>
-    <div class="movie-detail">
-      <h2>{{ movieDetails.name }}</h2>
-      <div class="short-info">
-        <div class="rate">
-          <span>rate: <strong>{{averageReview}}</strong></span>
-        </div>
+  <div class="center" style="width:800px; margin:0 auto;">
+    <div class="card" style="width: 50rem;">
+
+      <div class="movie-cover">
+        <img
+          src="{{ movieDetails.img }}"
+          alt="movie poster"
+          width="35%"
+          height="25%"
+        />
       </div>
-      <p class="desc">
-        {{ movieDetails.description }}
-      </p>
+      <div class="card-title">
+        <h1>{{ movieDetails.name }}</h1>
+        <div class="short-info">
+          <div class="card-subtitle mb-2 text-muted">
+            <span>Average Movie Rating: <strong>{{averageReview}}</strong></span>
+          </div>
+        </div>
+        <p class="card-text">
+          {{ movieDetails.description }}
+        </p>
+      </div>
+
     </div>
-    <div >
+
+    <div class="card" style="width: 50rem;">
       <div *ngIf="showAddReview" class="form-group row">
         <label for="review" class="col-sm-2 col-form-label">Review</label>
         <ngb-rating [max]="10" [(rate)]="currentRate" [readonly]="false"></ngb-rating>
@@ -35,20 +40,15 @@
       </div>
     </div>
     <!-- Movie Comments-->
-  <div>
+  <div class="card text-left" style="width: 50rem;">
+    <div class="card-header">Other User Comments</div>
     <ul>
       <section>
         <li *ngFor="let review of reviews">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title class="movie-img">
-                <strong id="comment head">{{review.firstName}} {{review.lastName}} rated the movie {{ review.rating }}</strong>
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="review-desc">
-              <p>{{ review.description }}</p>
-            </mat-card-content>
-          </mat-card>
+          <div class="card-body">
+            <h5 class="card-title">{{review.firstName}} {{review.lastName}} rated the movie {{ review.rating }}</h5>
+            <p class="card-text">{{ review.description }}</p>
+          </div>
         </li>
       </section>
     </ul>

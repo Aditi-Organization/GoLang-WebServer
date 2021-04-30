@@ -15,7 +15,7 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class MovieDetailsComponent implements OnInit {
 
-  public movieId: String;
+  public movieId: string;
 
   public movieDetails: MovieObject;
 
@@ -50,6 +50,7 @@ export class MovieDetailsComponent implements OnInit {
       this.movieDetails = movieDet;
       console.log(this.movieDetails);
     });
+    this.reviewService.setMovieId(this.movieId)
 
     this.reviewService.getReviewsForMovie(this.movieId).subscribe((movieReviews: ReviewObject[]) => {
       this.reviews = movieReviews;
@@ -78,7 +79,7 @@ export class MovieDetailsComponent implements OnInit {
 
 
 
-    this.reviewService.addReview({ 'authtoken': this.msg, 'rating': this.currentRate, 'description': this.msg })
+    this.reviewService.addReview({ 'rating': this.currentRate, 'description': this.msg })
       .pipe(first())
       .subscribe(
         data => {
