@@ -74,8 +74,8 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.currentRate);
-    console.log(this.msg);
+    // console.log(this.currentRate);
+    // console.log(this.msg);
 
 
 
@@ -86,6 +86,7 @@ export class MovieDetailsComponent implements OnInit {
           console.log(data);
           if (data != null) {
             console.log(data);
+            location.reload();
           }
         },
         error => {
