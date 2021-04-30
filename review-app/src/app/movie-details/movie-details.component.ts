@@ -4,6 +4,8 @@ import { MovieObject } from '../movieobject.model';
 import { MovieService } from '../services/movie-service/movie.service';
 import { ReviewObject } from '../reviewobject.model';
 import { ReviewService } from '../services/review-service/review.service';
+import { first } from 'rxjs/operators';
+import { AuthServiceService } from '../services/auth-service/auth-service.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -20,17 +22,22 @@ export class MovieDetailsComponent implements OnInit {
 
   // const fieldset = document.fo
   currentRate = 0;
+  msg : String = '';
+  private authToken : String;
+  showAddReview : boolean;
+  averageReview : String;
 
   constructor(public router : Router, public route : ActivatedRoute, public movieService : MovieService
-    , public reviewService : ReviewService) {
+    , public reviewService : ReviewService, public authServiceService : AuthServiceService) {
     route.url.subscribe(() => {
       this.movieId = route.snapshot.firstChild.url[0].path;
-      console.log(this.movieId);
+      console.log(this.showAddReview);
      });
   }
 
   ngOnInit(): void {
 
+    this.showAddReview = false;
     this.movieService.getMovieDetail(this.movieId).subscribe((movieDet : MovieObject) =>{
       this.movieDetails = movieDet;
       console.log(this.movieDetails);
@@ -39,11 +46,42 @@ export class MovieDetailsComponent implements OnInit {
     this.reviewService.getReviewsForMovie(this.movieId).subscribe((movieReviews : ReviewObject[]) =>{
       this.reviews = movieReviews;
       console.log(this.reviews);
+      var arrayLength = this.reviews.length;
+    var average = 0;
+for (var i = 0; i < arrayLength; i++) {
+    average = average+ parseInt(this.reviews[i].rating);
+
+}
+this.averageReview = String(average/arrayLength) ;
     });
+    console.log(this.authServiceService.getSessionToken());
+    if (this.authServiceService.getSessionToken() != null) {
+      this.showAddReview = true;
+      this.authToken = this.authServiceService.getSessionToken();
+    }
+
+
 
   }
 
   onSubmit(){
     console.log(this.currentRate);
+    console.log(this.msg);
+
+
+
+    this.reviewService.addReview({ 'authtoken': this.msg, 'rating': this.currentRate, 'description': this.msg})
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log(data);
+          if (data != null) {
+            console.log(data);
+          }
+        },
+        error => {
+          return;
+        });
+
   }
 }

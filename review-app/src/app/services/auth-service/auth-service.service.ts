@@ -59,4 +59,8 @@ export class AuthServiceService {
   getSessionData(): any {
     return sessionStorage.getItem("user");
   }
+
+  getSessionToken(): any {
+    return sessionStorage.getItem("id_token");
+  }
 }
