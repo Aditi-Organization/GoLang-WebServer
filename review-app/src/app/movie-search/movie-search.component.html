@@ -26,13 +26,13 @@
     </div>
   </nav>
   <section id="main">
-    <h1 class="showcase-heading">Movies</h1>
+    <h1 class="showcase-heading">Search Movie</h1>
   </section>
   <!-- Movie LIST-->
   <div>
     <ul>
       <section id="movie-list">
-        <li *ngFor="let movie of movies">
+        <li *ngFor="let movie of movie">
           <a [routerLink]="['/movie', movie._id]">
             <div class="movie-box" id="movie-box">
               <!-- Movie image-->
@@ -41,7 +41,6 @@
               </div>
               <!-- Movie desc -->
               <a class="movie-name" href="/movie-list"> {{ movie.name }} </a>
-              <p class="movie-desc">{{ movie.description }}</p>
             </div>
           </a>
         </li>

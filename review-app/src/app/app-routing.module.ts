@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
+import { MovieSearchComponent } from './movie-search/movie-search.component';
 
 const routes: Routes = [
   {
@@ -23,16 +24,26 @@ const routes: Routes = [
   {
     path: 'movie',
     component: MovieDetailsComponent,
-    children :[
+    children: [
       {
-        path:':id',
-        component:MovieDetailsComponent
+        path: ':id',
+        component: MovieDetailsComponent
       }
     ]
   },
   {
     path: 'movie-list',
     component: MovieListComponent
+  },
+  {
+    path: 'movie-search',
+    component: MovieSearchComponent,
+    children: [
+      {
+        path: ':name',
+        component: MovieSearchComponent
+      }
+    ]
   }
 ];
 

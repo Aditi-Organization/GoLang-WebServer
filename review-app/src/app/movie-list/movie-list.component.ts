@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MovieObject } from '../movieobject.model';
+import { MovieSearchService } from '../services/movie-search-service/movie-search.service';
 import { MovieService } from '../services/movie-service/movie.service';
 
 @Component({
@@ -11,7 +12,9 @@ import { MovieService } from '../services/movie-service/movie.service';
 export class MovieListComponent implements OnInit {
 
   public movies: MovieObject[];
-  constructor(public movieService: MovieService) {
+  public textValue: any;
+
+  constructor(public movieService: MovieService, public searchValue: MovieSearchService) {
   }
 
   ngOnInit(): void {
@@ -21,6 +24,11 @@ export class MovieListComponent implements OnInit {
     this.movieService.getAllMovies().subscribe((movieList: MovieObject[]) => {
       this.movies = movieList;
     })
+  }
+  public submitOnClick() {
+    this.textValue = (<HTMLInputElement>document.getElementById('searchText')).value;
+    this.searchValue.data = this.textValue;
+    console.log("searchValue: " + this.searchValue.data);
   }
 
   callMovie() {

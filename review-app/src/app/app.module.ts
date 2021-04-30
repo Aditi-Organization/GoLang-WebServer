@@ -19,6 +19,8 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieService } from './services/movie-service/movie.service';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MovieSearchComponent } from './movie-search/movie-search.component';
+import { MovieSearchService } from './services/movie-search-service/movie-search.service';
 import { MatCardModule } from '@angular/material/card';
 
 
@@ -31,7 +33,8 @@ import { MatCardModule } from '@angular/material/card';
     LoginComponent,
     SignupComponent,
     MovieDetailsComponent,
-    MovieListComponent
+    MovieListComponent,
+    MovieSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,7 @@ import { MatCardModule } from '@angular/material/card';
     MatCardModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [HeaderComponentService, AuthServiceService, MovieService],
+  providers: [HeaderComponentService, AuthServiceService, MovieService, MovieSearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

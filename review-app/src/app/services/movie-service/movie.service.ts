@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,11 +19,21 @@ export class MovieService {
     });
   }
 
-  getMovieDetail(id:String): Observable<any> {
-    return this.http.get(this.apiUrl + 'api/movies/'+id, {
+  getMovieDetail(id: String): Observable<any> {
+    return this.http.get(this.apiUrl + 'api/movies/' + id, {
       // headers: new HttpHeaders({
       //   "Content-Type": "application/json"
       // })
+    });
+  }
+
+  getMovie(param: Object): Observable<any> {
+    var audioUrl = "\"" + param + "\"";
+    const body = { movieName: param };
+    return this.http.post(this.apiUrl + 'api/movies/', body, {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
     });
   }
 }
