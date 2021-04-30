@@ -19,6 +19,10 @@ type createReviewData struct {
 }
 
 func CreateReview(c *gin.Context) {
+	// err := jwtMiddleware.VerifyJWTAsFunc(c)
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Unable to register review"})
+	// }
 	var review createReviewData
 	c.BindJSON(&review)
 

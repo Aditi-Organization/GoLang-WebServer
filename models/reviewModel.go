@@ -40,12 +40,12 @@ func GetReview(movieId string) bson.M {
 }
 
 func GetMovieReviews(movieId string) []bson.M {
-	// movieObjectId, err := primitive.ObjectIDFromHex(movieId)
+	movieObjectId, err := primitive.ObjectIDFromHex(movieId)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	matchStage := bson.D{{"$match", bson.D{{"movieId", movieObjectId}}}}
 	lookupStage := bson.D{{"$lookup", bson.D{{"from", "users"}, {"localField", "userId"}, {"foreignField", "_id"}, {"as", "reviewedBy"}}}}
 	unwindStage := bson.D{{"$unwind", bson.D{{"path", "$reviewedBy"}, {"preserveNullAndEmptyArrays", false}}}}
 	projectStage := bson.D{{"$project",
@@ -60,7 +60,7 @@ func GetMovieReviews(movieId string) []bson.M {
 	tempContext := context.TODO()
 	// var temp bson.M
 	// cursor, err := reviewCollection.Find(tempContext, bson.M{"movieId": movieObjectId})
-	cursor, err := reviewCollection.Aggregate(tempContext, mongo.Pipeline{lookupStage, unwindStage, projectStage})
+	cursor, err := reviewCollection.Aggregate(tempContext, mongo.Pipeline{matchStage, lookupStage, unwindStage, projectStage})
 
 	var movieReviews []bson.M
 	if err != nil {

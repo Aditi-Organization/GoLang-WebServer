@@ -19,7 +19,7 @@ func ReviewRouter(rg *gin.RouterGroup) {
 
 	review.GET("/:id", reviewController.ListReview)
 
-	review.POST("/:id", jwtMiddleware.VerifyJSONWebToken, reviewController.CreateReview)
+	review.POST("/:id/", jwtMiddleware.VerifyJSONWebToken, reviewController.CreateReview)
 
 	review.PUT("/:rid", reviewController.UpdateReview)
 
