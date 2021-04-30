@@ -2,6 +2,7 @@ package reviewRouter
 
 import (
 	"GoLang-WebServer/controller/reviewController"
+	"GoLang-WebServer/middlewares/jwtMiddleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ func ReviewRouter(rg *gin.RouterGroup) {
 
 	review.GET("/:id", reviewController.ListReview)
 
-	review.POST("/:rid", reviewController.CreateReview)
+	review.POST("/:id", jwtMiddleware.VerifyJSONWebToken, reviewController.CreateReview)
 
 	review.PUT("/:rid", reviewController.UpdateReview)
 

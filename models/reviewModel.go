@@ -98,3 +98,23 @@ func PrintAllReviews() {
 		fmt.Println(result)
 	}
 }
+
+func CreateReview(movie string, user string, rating int, description string) error {
+	userId, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return err
+	}
+	movieId, err := primitive.ObjectIDFromHex(movie)
+	if err != nil {
+		return err
+	}
+	tempContext := context.TODO()
+	review, err := reviewCollection.InsertOne(tempContext, bson.D{
+		{Key: "movieId", Value: movieId},
+		{Key: "description", Value: description},
+		{Key: "userId", Value: userId},
+		{Key: "rating", Value: rating},
+	})
+	fmt.Println("created review ", review)
+	return err
+}

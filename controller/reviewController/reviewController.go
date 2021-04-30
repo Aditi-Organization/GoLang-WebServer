@@ -13,8 +13,30 @@ import (
 // ListReviewsAPI /api/review/ <GET>
 // DeleteReviewAPI /api/review/:rid <DELETE>
 
+type createReviewData struct {
+	Description string `form:"description" json:"description" binding:"required"`
+	Rating      int    `form:"rating" json:"rating" binding:"required"`
+}
+
 func CreateReview(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+	var review createReviewData
+	c.BindJSON(&review)
+
+	movieId := c.Param("id")
+	UserId := c.MustGet("userId").(string)
+	// fmt.Println("Got id", )
+	// fmt.Println("movie id",)
+
+	if movieId == "" || UserId == "" || review.Description == "" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Please provide both movie rating and description of review"})
+	} else {
+		err := models.CreateReview(movieId, UserId, review.Rating, review.Description)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Unable to register review"})
+		}
+		c.JSON(http.StatusOK, gin.H{})
+	}
+
 }
 
 func UpdateReview(c *gin.Context) {
